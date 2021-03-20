@@ -10,7 +10,7 @@ import java.util.*
 
 class StatsTracker : Service() {
     private val LOG_TAG  = "StatsTracker"
-    private val THRESHOLD_DISTANCE_METERS = 0 //3
+    private val THRESHOLD_DISTANCE_METERS = 3
 
     private val locationProvider = LocationProviderService(this)
     private var unsubscribeLocationUpdates: () -> Unit = {}

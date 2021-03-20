@@ -16,7 +16,7 @@ data class Subscriber(val name: String, val handler: (Location) -> Unit)
 // TODO thread safety
 class LocationProviderService(private val context: Context) {
     private val LOG_TAG = "LocationProviderService"
-    private val LOCATION_UPDATE_INTERVAL_MS = 2000L
+    private val LOCATION_UPDATE_INTERVAL_MS = 10000L
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 

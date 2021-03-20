@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
             })
 
             timer?.cancel()
-            durationSeconds = 0
         }
 
         findViewById<Button>(R.id.start_button).setOnClickListener {
@@ -46,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                 replyTo = receiver
             })
 
+            durationSeconds = 0
             timer = Timer()
             timer?.schedule(object : TimerTask() {
                 override fun run() {
