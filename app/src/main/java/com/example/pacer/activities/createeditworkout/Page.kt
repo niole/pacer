@@ -2,39 +2,42 @@ package com.example.pacer.activities.createeditworkout
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
 import androidx.compose.material.TextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.text.input.TextFieldValue
-import com.example.pacer.services.Workout
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
 @Composable
-fun Page(workout: Workout, handleUpdateWorkout: (Workout) -> Unit) {
+fun Page(workoutViewModel: WorkoutViewModel) {
 
-    val workoutName = remember {
-        mutableStateOf(TextFieldValue(workout.name))
-    }
+    val workout by workoutViewModel.workout.observeAsState()
 
     Column {
         TextField(
-            value = workoutName.value,
-            onValueChange = { workoutName.value = it }
+            value = workout?.name ?: "untitled", // TODO create global default for workout name
+            onValueChange = { workoutViewModel.setWorkoutName(it) }
         )
 
+        Button(onClick = { workoutViewModel.addEmptyStage() }) {
+            Text("Add New Stage")
+        }
+
         LazyColumn {
-            items(workout.stages) { stage ->
+            items(workout?.stages ?: listOf()) { stage ->
                 Row() {
                     Column {
                         stage.subStages.forEach { subStage ->
-                            Row() {
-                                Text(text = subStage.name)
-                                Text(text = subStage.durationSeconds.toString())
-                                Text(text = subStage.distance.toString())
+                            Row(modifier = Modifier.padding(5.dp)) {
+                                Text(text = subStage.name, modifier = Modifier.padding(0.dp, 0.dp, 5.dp, 0.dp))
+                                Text(text = subStage.durationSeconds.toString(), modifier = Modifier.padding(0.dp, 0.dp, 5.dp, 0.dp))
+                                Text(text = subStage.distance.toString(), modifier = Modifier.padding(0.dp, 0.dp, 5.dp, 0.dp))
                             }
                         }
                     }
